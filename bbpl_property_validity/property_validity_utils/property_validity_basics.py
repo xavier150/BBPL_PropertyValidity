@@ -25,6 +25,18 @@ def check_string_not_empty(
         return False
     return True
 
+def check_string_in_list(
+    property_check: PropertyCheckData, 
+    value: str, 
+    valid_values: list[str]
+) -> bool:
+    """Checks if a string is in a list of valid values. Returns True if the string is in the list, False otherwise."""
+    
+    if value not in valid_values:
+        property_check.add_error(f'String "{value}" is not in list: {valid_values}')
+        return False
+    return True
+
 def check_bone_exist(
     property_check: PropertyCheckData, 
     armature: bpy.types.Object, 
