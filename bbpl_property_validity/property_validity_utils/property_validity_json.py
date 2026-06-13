@@ -92,7 +92,8 @@ def check_json_string_list(
 
 def check_json_object_list(
     property_check: PropertyCheckData, 
-    value: str
+    value: str,
+    type: Optional[str] = None
 ) -> bool:
     """Checks if a string is a valid JSON list of objects. Returns True if the list is valid, False otherwise."""
 
@@ -106,6 +107,13 @@ def check_json_object_list(
         if o not in bpy.context.scene.objects:
             property_check.add_error(f'"{str(o)}" not found in scene objects.')
             has_error = True
+        else:
+            if type:
+                obj = bpy.context.scene.objects[o]
+                if obj.type != type:
+                    property_check.add_error(f'"{str(o)}" is not of type {str(type)}.')
+                    has_error = True
+
     if has_error:    
         return False
 
