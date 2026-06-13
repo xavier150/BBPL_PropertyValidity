@@ -6,3 +6,5 @@
 #  BBPL -> BleuRaven Blender Python Library - Property Validity
 #  https://github.com/xavier150/BBPL_PropertyValidity
 # ----------------------------------------------
+
+import bpy
