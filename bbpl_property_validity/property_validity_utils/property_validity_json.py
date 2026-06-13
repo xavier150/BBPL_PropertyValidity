@@ -35,15 +35,20 @@ def check_json_string_list(property_check: PropertyCheckData, value: str) -> boo
 
     json_result = _check_modifier_json(property_check, value)
 
-    if json_result:
-        if not isinstance(json_result, list):
-            property_check.add_error("Json not a list: " + str(json_result))
-        else:
-            json_list = cast(List[Any], json_result)
-            for x, o in enumerate(json_list):
-                if not isinstance(o, str):
-                    property_check.add_error(f"Index {str(x)} is not a String (str): {str(o)}")
-                elif o == "":
-                    property_check.add_error(f"Index {str(x)} is empty!")
+    if not json_result:
+        return False
+    
+    if not isinstance(json_result, list):
+        property_check.add_error("Json not a list: " + str(json_result))
+        return False
 
-    return False
+    json_list = cast(List[Any], json_result)
+    for x, o in enumerate(json_list):
+        if not isinstance(o, str):
+            property_check.add_error(f"Index {str(x)} is not a String (str): {str(o)}")
+            return False
+        elif o == "":
+            property_check.add_error(f"Index {str(x)} is empty!")
+            return False
+
+    return True
