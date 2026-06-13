@@ -50,6 +50,7 @@ class PropertyTypedResult():
 
     def draw_result(self, layout: bpy.types.UILayout) -> bpy.types.UILayout:
         grouped_text = layout.column()
+        grouped_text.alert = self.is_error() # Turn the text red for errors.
         for x, text in enumerate(self.texts):
             if x == 0:
                 grouped_text.label(text=text, icon=self.result_type.get_icon())
