@@ -28,12 +28,16 @@ def check_string_not_empty(
 def check_string_in_list(
     property_check: PropertyCheckData, 
     value: str, 
-    valid_values: list[str]
+    valid_values: list[str],
+    include_list_in_report: bool = True
 ) -> bool:
     """Checks if a string is in a list of valid values. Returns True if the string is in the list, False otherwise."""
     
     if value not in valid_values:
-        property_check.add_error(f'String "{value}" is not in list: {valid_values}')
+        if include_list_in_report:
+            property_check.add_error(f'String "{value}" is not in list: {valid_values}')
+        else:
+            property_check.add_error(f'String "{value}" is not in list.')
         return False
     return True
 

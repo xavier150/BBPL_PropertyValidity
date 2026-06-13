@@ -89,6 +89,31 @@ def check_json_string_list(
         return False
     return True
 
+def check_json_string_list_in_list(
+    property_check: PropertyCheckData, 
+    value: str,
+    valid_values: List[str],
+    include_list_in_report: bool = True
+) -> bool:
+    """Checks if a string is a valid JSON list of strings and if all strings are in a list of valid values. Returns True if the list is valid, False otherwise."""
+
+    json_list = _check_and_get_json_string_list(property_check, value)
+
+    if not json_list:
+        return False
+
+    has_error = False
+    for x, o in enumerate(json_list):
+        if o not in valid_values:
+            if include_list_in_report:
+                property_check.add_error(f'Index {str(x)}: "{o}" is not in list: {valid_values}')
+            else:
+                property_check.add_error(f'Index {str(x)}: "{o}" is not in list.')
+            has_error = True
+    if has_error:
+        return False
+
+    return True
 
 def check_json_object_list(
     property_check: PropertyCheckData, 
