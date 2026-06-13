@@ -57,3 +57,25 @@ def check_armature_and_bone_exist(
         property_check.add_error(f"Bone {bone_name} not found in {armature.name}.")
         return False
     return True
+
+def check_armature_and_bone_list_exist(
+    property_check: PropertyCheckData, 
+    armature: Optional[bpy.types.Object], 
+    bone_names: list[str]
+) -> bool:
+    """Checks if an armature exists and contains a list of specific bones. Returns True if the armature exists and contains all the bones, False otherwise."""
+    
+    if armature is None:
+        property_check.add_error("Armature is None.")
+        return False
+    if not isinstance(armature.data, bpy.types.Armature):
+        property_check.add_error(f"Object {armature.name} is not an armature.")
+        return False
+    has_error = False
+    for bone_name in bone_names:
+        if bone_name not in armature.data.bones:
+            property_check.add_error(f'Bone "{bone_name}" not found in {armature.name}.')
+            has_error = True
+    if has_error:
+        return False
+    return True
