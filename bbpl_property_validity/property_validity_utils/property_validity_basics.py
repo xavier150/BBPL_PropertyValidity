@@ -41,6 +41,24 @@ def check_string_in_list(
         return False
     return True
 
+def check_string_list_in_list(
+    property_check: PropertyCheckData, 
+    values: list[str], 
+    valid_values: list[str],
+    include_list_in_report: bool = True
+) -> bool:
+    """Checks if all strings in a list are in a list of valid values. Returns True if all strings are in the list, False otherwise."""
+    
+    has_error = False
+    for value in values:
+        if value not in valid_values:
+            has_error = True
+            if include_list_in_report:
+                property_check.add_error(f'String "{value}" ({values.index(value)}) is not in list: {valid_values}')
+            else:
+                property_check.add_error(f'String "{value}" ({values.index(value)}) is not in list.')
+    return not has_error
+
 def check_bone_exist(
     property_check: PropertyCheckData, 
     armature: bpy.types.Object, 
